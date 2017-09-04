@@ -1,0 +1,28 @@
+<%= form_for @todo do |t| %>
+    <% if @todo.errors.any? %>
+        <div id="error_explanation">
+            <h2>
+        <%= pluralize(@todo.errors.count, "error") %> prohibited
+        this todo from being saved:
+      </h2>
+      <ul>
+        <% @todo.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+        </div>
+    <% end %>
+    <%= t.label :title %>
+    <%= t.text_field :title %>
+    <br />
+    <%= t.label :description %>
+    <%= t.text_field :description %>
+    <br />
+    <%= t.label :done %>
+    <%= t.check_box :done %>
+    <br />
+    <%= t.label :due %>
+    <%= t.text_field :due %>
+    <br />
+    <%= t.submit %>
+<% end %>
