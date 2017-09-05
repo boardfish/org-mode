@@ -2,11 +2,15 @@
 <hr />
 <div class="card-columns">
 <% @links.each do |link| %>
+<a href="<%= link.desc %>">
   <div class="card">
-    <%# <img class="card-img-top" src="..." alt="Card image cap"> %>
+    <% if !link.attachments.empty? %>
+        <img class="card-img-top mx-auto d-block" src="<%= link.attachments[0].url %>" alt="Card image cap">
+    <% end %>
     <div class="card-body">
-      <h4 class="card-title"><a href="<%= link.desc %>"><%= link.name %></a></h4>
+      <h4 class="card-title text-center"><%= link.name %></h4>
     </div>
   </div>
+</a>
 <% end %>
 </div>
