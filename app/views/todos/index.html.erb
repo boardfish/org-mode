@@ -1,24 +1,28 @@
-<h1>Listing todos</h1>
+<h1 class="text-uppercase">Tasks</h1>
+<%= link_to 'Create New Task', new_todo_path, class: "btn btn-success mb-3" %>
  
-<table>
+<table class="table table-condensed table-striped text-center">
   <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Due</th>
-    <th>Done</th>
+    <th class="text-center">Title</th>
+    <th class="text-center">Description</th>
+    <th class="text-center">Due</th>
   </tr>
  
   <% @todos.each do |todo| %>
     <tr>
-      <td><%= todo.title %></td>
-      <td><%= todo.description %></td>
-      <td><%= todo.due %></td>
-      <td><%= todo.done %></td>
-      <td><%= link_to 'Show', todo_path(todo) %></td>
-      <td><%= link_to 'Edit', edit_todo_path(todo) %></td>
-      <td><%= link_to 'Destroy', todo_path(todo),
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
+      <td><%= todo.name %></td>
+      <td><%= todo.desc %></td>
+      <td><%= todo.due ? todo.due.strftime("%d/%m/%y %H:%M") : "" %></td>
+      <td>
+          <div class="btn-group" role="group" aria-label="Toggle done">
+        <%= link_to '<i class="fa fa-edit"></i>'.html_safe, todo.url,
+              class: "btn btn-warning" %>
+        <%= link_to '<i class="fa fa-check"></i>'.html_safe, trello_done_path(id: todo.id), class: "btn btn-success" %>
+        <%= link_to '<i class="fa fa-trash"></i>'.html_safe, trello_delete_path(id: todo.id),
+              data: { confirm: 'Are you sure?' },
+              class: "btn btn-danger"%>
+          </div>
+      </td>
     </tr>
   <% end %>
 </table>

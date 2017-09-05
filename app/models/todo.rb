@@ -1,8 +1,5 @@
 class Todo < ApplicationRecord
-  validates :title, presence: true,
-                    length: { minimum: 5 }
-  validates :description, presence: false,
-                    length: { minimum: 5 }
-  validates :due, presence: true
-  validates_inclusion_of :done, :in => [true, false]
+  validates :title, presence: true
+  validates :description, presence: false
+  validates :due, presence: false, in_future: true
 end

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Orgmode</title>
+    <title>Org-Mode</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +9,33 @@
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand text-uppercase" style="font-family:Montserrat;" href="#"><i class="fa fa-code"></i> org-mode</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item <%= params[:controller] == 'links' ? "active" : "" %>">
+            <a class="nav-link" href="#">Your Links
+              <% if params[:controller] == 'links' %>
+                <span class="sr-only">(current)</span>
+              <% end %>
+            </a>
+          </li>
+          <li class="nav-item <%= params[:controller] == 'todos' ? "active" : "" %>">
+            <a class="nav-link" href="#">Tasks
+              <% if params[:controller] == 'todos' %>
+                  <span class="sr-only">(current)</span>
+              <% end %>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container my-3">
+      <%= yield %>
+    </div>
   </body>
 </html>

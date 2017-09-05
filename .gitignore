@@ -21,3 +21,5 @@
 /yarn-error.log
 
 .byebug_history
+/node_modules
+app/controllers/api_configs.rb

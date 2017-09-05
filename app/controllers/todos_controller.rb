@@ -1,10 +1,29 @@
 class TodosController < ApplicationController
   def index
-    @todos = Todo.all
+    require_relative 'trello_controller.rb'
+    todo_personal = Trello::List.find(Config::TRELLO[:todo_list])
+    @todos = todo_personal.cards
+    @todos.each do |todo|
+      puts todo.name
+    end
   end
 
   def new
     @todo = Todo.new
+  end
+
+  def trello_delete
+    require_relative 'trello_controller.rb'
+    @todo = Trello::Card.find(params[:id])
+    @todo.delete
+    redirect_to todos_path
+  end
+
+  def trello_done
+    require_relative 'trello_controller.rb'
+    @todo = Trello::Card.find(params[:id])
+    @todo.move_to_list(Trello::List.find(Config::TRELLO[:done_list]))
+    redirect_to todos_path
   end
 
   def edit
@@ -13,8 +32,16 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(todo_params)
-    if @todo.save
-      redirect_to @todo
+    if @todo.valid?
+      require_relative 'trello_controller.rb'
+      Trello::Card.create(
+        name: @todo.title,
+        desc: @todo.description,
+        due: @todo.due.to_date,
+        pos: 'top',
+        list_id: Config::TRELLO[:todo_list]      
+      )
+      redirect_to todos_path
     else
       render 'new'
     end
@@ -42,6 +69,6 @@ class TodosController < ApplicationController
 
   private
     def todo_params
-      params.require(:todo).permit(:title, :description, :due, :done)
+      params.require(:todo).permit(:title, :description, :due)
     end
 end
