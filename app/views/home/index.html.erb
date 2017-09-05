@@ -1,4 +1,13 @@
-<h1 class="text-uppercase text-center">Todo List</h1>
+<h1 class="text-uppercase text-center">Welcome, <%= Config::USERNAME %>!</h1>
 <hr />
 <%= link_to 'Todo List', controller: 'todos' %>
-<%= link_to 'New Todo', new_todo_path %>
+<div class="card-columns">
+<% @links.each do |link| %>
+  <div class="card">
+    <%# <img class="card-img-top" src="..." alt="Card image cap"> %>
+    <div class="card-body">
+      <h4 class="card-title"><a href="<%= link.desc %>"><%= link.name %></a></h4>
+    </div>
+  </div>
+<% end %>
+</div>

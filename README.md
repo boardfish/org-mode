@@ -2,6 +2,11 @@
 
 Primarily a first attempt at Ruby on Rails. A personal organiser that hooks into various APIs including Trello and GitHub.
 
+## Prerequisites
+
+- A todo and done list on Trello somewhere. They don't have to be on the same board.
+- A list of links on Trello, named as what they'll display as and with the link itself in the card description.
+
 ## Installation
 
 Clone the repository and run `bundle install` in the directory. Once you've moved the example_api_configs.rb to app/controllers/api_configs.rb and filled it with your details, run `bin/rails server` to host it and navigate to the port it's open at.
