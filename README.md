@@ -1,24 +1,13 @@
-# README
+# org-mode
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Primarily a first attempt at Ruby on Rails. A personal organiser that hooks into various APIs including Trello and GitHub.
 
-Things you may want to cover:
+## Installation
 
-* Ruby version
+Clone the repository and run `bundle install` in the directory. Once you've moved the example_api_configs.rb to app/controllers/api_configs.rb and filled it with your details, run `bin/rails server` to host it and navigate to the port it's open at.
 
-* System dependencies
+I'd like to build this into a more widespread and popular service if there's enough support for it, but for now, it's tailored more to my personal needs.
 
-* Configuration
+## Current state
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+I've literally just picked up Ruby on Rails after ASP.NET, so I'm feeling very much at home with it after my existing experience with Ruby. As such, development should be a pretty stable process, but it's still early days.
