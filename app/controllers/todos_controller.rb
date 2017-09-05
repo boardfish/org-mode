@@ -3,9 +3,6 @@ class TodosController < ApplicationController
     require_relative 'trello_controller.rb'
     todo_personal = Trello::List.find(Config::TRELLO[:todo_list])
     @todos = todo_personal.cards
-    @todos.each do |todo|
-      puts todo.name
-    end
   end
 
   def new
