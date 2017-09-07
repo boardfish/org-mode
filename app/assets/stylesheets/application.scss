@@ -1,13 +1,12 @@
-$teal:          #008080;
-$cyan:          #006666;
-$body-bg:       $teal;
-$body-color:    #fff;
+@import '/home/si/.cache/wal/colors.scss';
+$body-bg:       $background;
+$body-color:    $foreground;
 // $theme-colors:(
 //     dark: #f00
 // );
 $font-family-sans-serif: "Lato", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 $headings-font-family:   "Montserrat";
-$hr-border-color: #FFF;
+$hr-border-color: $foreground;
 $hr-border-width: 0.3rem;
 @import "bootstrap";
 @import url('https://fonts.googleapis.com/css?family=Lato|Montserrat:700');
@@ -15,6 +14,16 @@ $hr-border-width: 0.3rem;
 // .field_with_errors {
 //   @extend .has-danger;
 // }
+body {
+  background-image: url($wallpaper);
+}
+a {
+  color: $foreground;
+  transition:all 0.3s ease;
+  &:hover, &:focus {
+    color: $color7;
+  }
+}
 .card-columns {
   @include media-breakpoint-up(md) {
     column-count: 4;

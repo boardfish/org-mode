@@ -1,0 +1,104 @@
+<h1 class="text-uppercase"><i class="fa fa-github"></i> GitHub</h1>
+<hr />
+<div class="row">
+    <h2>Issues</h2>
+    <table class="table table-condensed table-responsive">
+        <% @issues.each do |issue|  %>
+            <% if issue.updated_at>1.week.ago %>
+                <tr>
+                    <td>
+                        <% case issue.state%>
+                        <% when "open" %>
+                            <i class="fa fa-exclamation-circle"></i>
+                        <% when "closed" %>
+                            <i class="fa fa-times-circle"></i>
+                        <% else %>
+                            <%= issue.state %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <a href="<%= issue.rels[:self].get.data.rels[:html].href %>">
+                            <%= issue.title %>
+                        </a>
+                    </td>
+                    <td><%= l issue.updated_at, format: :datetime_concise %></td>
+                </tr>      
+            <% end %>
+        <% end %>
+    </table>
+
+    <h2>Timeline</h2>
+    <table class="table table-hover table-responsive">
+        <tbody>
+            <% @events.each do |event|  %>
+                <% if event.created_at>1.week.ago %>
+                    <tr>
+                        <td class="text-center p-0 pr-1 border-0" nowrap><b><%= l event.created_at, format: :datetime_concise %></b></td>
+                        <td class="text-right p-0 border-0">
+                            <a href="<%= event.actor.rels[:self].get.data.rels[:html].href %>">
+                                <%= event.actor.login %>
+                            </a>
+                        </td>
+                        <td class="text-center p-0 border-0">
+                            <% case event.type %>   
+                            <% when "ForkEvent" %>
+                                <i class="fa fa-code-fork"></i>
+                            <% when "CreateEvent" %>
+                                <i class="fa fa-pencil-square-o"></i>
+                            <% when "WatchEvent" %>
+                                <i class="fa fa-star"></i>
+                            <% when "MemberEvent" %>
+                                <i class="fa fa-user"></i>
+                            <% when "IssuesEvent" %>
+                                <% if event.payload.action=="closed" %>
+                                    <i class="fa fa-times-circle"></i>
+                                <% else %>
+                                    <i class="fa fa-exclamation-circle"></i>
+                                <% end %>
+                            <% when "PushEvent" %>
+                                <i class="fa fa-cloud-upload"></i>
+                            <% else %>
+                                <%= event %>
+                            <% end %>
+                        </td>
+                        <td class="text-left p-0 border-0">
+                            <a href="<%= event.repo.rels[:self].get.data.rels[:html].href %>">
+                                <%= event.repo.name %>
+                            </a>
+                            <% case event.type %>
+                            <% when "MemberEvent" %>
+                                <br />
+                                <small>
+                                    <a href="<%= event.payload.member.rels[:self].get.data.rels[:html].href %>">
+                                        <%= event.payload.member.login %>
+                                    </a>
+                                </small>
+                            <% when "IssuesEvent" %>
+                                <br />
+                                <small><%= event.payload.issue.title %></small>
+                            <% when "PushEvent" %>
+                                <ul class="pl-0">
+                                    <% event.payload.commits.each do |commit| %>
+                                        <li>
+                                            <small><%= commit.message %></small>
+                                        </li>
+                                    <% end %>
+                                </ul>
+                            <% end %>
+                        </td>
+                    </tr>
+                <% end %>
+            <% end %>
+        </tbody>
+    </table>
+    <h2>Your Repos</h2>
+    <table class="table table-hover table-responsive">
+        <% @repos.each do |repo| %>
+            <tr>
+                <td class="border-0 p-0 pr-1"><b><%= l repo.updated_at, format: :datetime_concise %></b></td>
+                <td class="border-0 p-0"><a href="<%= repo.rels[:html].href %>"><%= repo.name %></a></td>
+            </tr>
+        <% end %>
+    </table>
+</div>
+
