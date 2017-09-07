@@ -1,14 +1,18 @@
 <h1 class="text-uppercase text-center">Welcome, <%= Config::USERNAME %>!</h1>
 <hr />
 <div class="card-columns">
-<% @links.each do |link| %>
-<a href="<%= link.desc %>">
-  <div class="card">
-    <% if !link.attachments.empty? %>
-        <img class="card-img-top mx-auto d-block" src="<%= link.attachments[0].url %>" alt="Card image cap">
-    <% end %>
-    <div class="card-body">
-      <h4 class="card-title text-center"><%= link.name %></h4>
+<% @links.each_with_index do |link, index| %>
+<a href="<%= link.desc.split(/\n/)[0] %>" tabindex="<%= index+1  %>">
+  <div class="card bg-dark">
+    <div class="card-body text-white">
+        <h4 class="card-title text-center">
+            <div class="row">
+                <i class="col-1 fa fa-<%= link.desc.split(/\n/)[1] %>"></i>
+                <div class="col-10">
+                    <%= link.name %>
+                </div>
+            </div>
+        </h4>
     </div>
   </div>
 </a>

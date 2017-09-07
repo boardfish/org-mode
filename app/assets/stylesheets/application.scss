@@ -2,6 +2,9 @@ $teal:          #008080;
 $cyan:          #006666;
 $body-bg:       $teal;
 $body-color:    #fff;
+// $theme-colors:(
+//     dark: #f00
+// );
 $font-family-sans-serif: "Lato", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 $headings-font-family:   "Montserrat";
 $hr-border-color: #FFF;
@@ -20,7 +23,6 @@ $hr-border-width: 0.3rem;
     column-count: 5;
   }
 }
-.card-img-top {
+.card {
     max-height:10rem;
-    width:auto;
 }

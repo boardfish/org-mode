@@ -1,11 +1,13 @@
 class TodosController < ApplicationController
   require_relative 'api_configs.rb'
-  http_basic_authenticate_with name: Config::GITHUB[:username], 
-                               password: Config::GITHUB[:password]
+  # http_basic_authenticate_with name: Config::GITHUB[:username], 
+  #                              password: Config::GITHUB[:password]
   def index
     require_relative 'trello_controller.rb'
-    todo_personal = Trello::List.find(Config::TRELLO[:todo_list])
-    @todos = todo_personal.cards
+    require_relative 'github_controller.rb'
+    @todos = todo_list.cards
+    @issues = issues
+    @events = events
   end
 
   def new
@@ -14,15 +16,13 @@ class TodosController < ApplicationController
 
   def trello_delete
     require_relative 'trello_controller.rb'
-    @todo = Trello::Card.find(params[:id])
-    @todo.delete
+    delete_card(params[:id])
     redirect_to todos_path
   end
 
   def trello_done
     require_relative 'trello_controller.rb'
-    @todo = Trello::Card.find(params[:id])
-    @todo.move_to_list(Trello::List.find(Config::TRELLO[:done_list]))
+    mark_done(params[:id])
     redirect_to todos_path
   end
 
