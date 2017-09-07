@@ -6,6 +6,7 @@ Primarily a first attempt at Ruby on Rails. A personal organiser that hooks into
 
 - A todo and done list on Trello somewhere. They don't have to be on the same board.
 - A list of links on Trello, named as what they'll display as and with the link itself in the card description.
+- A GitHub account.
 
 ## Installation
 
