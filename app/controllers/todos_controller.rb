@@ -9,6 +9,7 @@ class TodosController < ApplicationController
     @todos = todo_list.cards
     @issues = issues
     @events = events
+    @repos = repos
   end
 
   def new

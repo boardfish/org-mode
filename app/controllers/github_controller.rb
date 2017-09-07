@@ -10,7 +10,7 @@ def notifications
 end
 
 def events
-  events = Octokit.received_events(Config::GITHUB[:username])
+  Octokit.received_events(Config::GITHUB[:username])
 end
 
 def issues
@@ -22,3 +22,14 @@ def issues
     per_page: 5
   )[:items]
 end
+
+def repos
+  Octokit.repos(
+    Config::GITHUB[:username],
+    sort: 'updated',
+    order: 'desc',
+    page: 1,
+    per_page: 5
+  )
+end
+
