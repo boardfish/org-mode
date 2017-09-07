@@ -8,6 +8,12 @@ $font-family-sans-serif: "Lato", Arial, sans-serif, "Apple Color Emoji", "Segoe 
 $headings-font-family:   "Montserrat";
 $hr-border-color: $foreground;
 $hr-border-width: 0.3rem;
+//Nasty workaround for the theme-colors map merge
+$gray-800: darken($background, 15%);
+$navbar-dark-color: $color3;
+$navbar-dark-active-color: $color5;
+$navbar-dark-hover-color: $color7;
+$navbar-dark-disabled-color: $color9;
 @import "bootstrap";
 @import url('https://fonts.googleapis.com/css?family=Lato|Montserrat:700');
 @import "font-awesome";
@@ -32,6 +38,10 @@ a {
     column-count: 5;
   }
 }
+
 .card {
     max-height:10rem;
+    background-color:$color4;
 }
+
+
