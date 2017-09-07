@@ -17,13 +17,6 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item <%= params[:controller] == 'home' ? "active" : "" %>">
-              <a class="nav-link" href="<%= home_index_path %>">Your Links
-              <% if params[:controller] == 'home' %>
-                <span class="sr-only">(current)</span>
-              <% end %>
-            </a>
-          </li>
           <li class="nav-item <%= params[:controller] == 'todos' ? "active" : "" %>">
             <a class="nav-link" href="<%= todos_path %>">Tasks
               <% if params[:controller] == 'todos' %>

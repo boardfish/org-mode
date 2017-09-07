@@ -10,6 +10,11 @@ def todo_list
   Trello::List.find(Config::TRELLO[:todo_list])
 end
 
+def links_list
+  require_relative 'api_configs.rb'
+  Trello::List.find(Config::TRELLO[:links_list])
+end
+
 def delete_card(id)
   @todo = Trello::Card.find(id)
   @todo.delete

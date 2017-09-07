@@ -5,6 +5,7 @@ class TodosController < ApplicationController
   def index
     require_relative 'trello_controller.rb'
     require_relative 'github_controller.rb'
+    @links = links_list.cards
     @todos = todo_list.cards
     @issues = issues
     @events = events

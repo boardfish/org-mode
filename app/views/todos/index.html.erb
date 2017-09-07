@@ -1,39 +1,68 @@
+<h1 class="text-uppercase text-center">Welcome, <%= Config::USERNAME %>!</h1>
+<hr />
+<div class="card-columns">
+<% @links.each_with_index do |link, index| %>
+<a href="<%= link.desc.split(/\n/)[0] %>" tabindex="<%= index+1  %>">
+  <div class="card bg-dark">
+    <div class="card-body text-white">
+        <h4 class="card-title text-center">
+            <div class="row">
+                <i class="col-12 col-lg-1 fa fa-<%= link.desc.split(/\n/)[1] %>"></i>
+                <div class="col-12 col-lg-10">
+                    <%= link.name %>
+                </div>
+            </div>
+        </h4>
+    </div>
+  </div>
+</a>
+<% end %>
+</div>
+<hr />
 <div class="row">
     <div class="col-md-6">
-        <h1 class="text-uppercase">Tasks</h1>
-        <%= link_to 'Create New Task', new_todo_path, class: "btn btn-success mb-3" %>
-
-        <table class="table table-condensed table-striped text-center">
-            <tr>
-                <th class="text-center">Title</th>
-                <th class="text-center">Description</th>
-                <th class="text-center">Due</th>
-            </tr>
-
-            <% @todos.each do |todo| %>
+        <h1 class="text-uppercase"><i class="fa fa-check-circle-o"></i> Tasks</h1>
+        <hr />
+        <table class="table table-responsive table-condensed table-striped text-center">
+            <thead>
                 <tr>
-                    <td><%= todo.name %></td>
-                    <td><%= todo.desc %></td>
-                    <td><%= todo.due ? todo.due : "" %></td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Toggle done">
-                            <%= link_to '<i class="fa fa-edit"></i>'.html_safe, todo.url,
-                                class: "btn btn-warning" %>
-                            <%= link_to '<i class="fa fa-check"></i>'.html_safe, trello_done_path(id: todo.id), class: "btn btn-success" %>
-                            <%= link_to '<i class="fa fa-trash"></i>'.html_safe, trello_delete_path(id: todo.id),
-                                data: { confirm: 'Are you sure?' },
-                                class: "btn btn-danger"%>
-                    </div>
-                    </td>
+                    <th class="text-center">Title</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">Due</th>
                 </tr>
-            <% end %>
+            </thead>
+            <tbody>
+                <% @todos.each do |todo| %>
+                    <tr>
+                        <td><%= todo.name %></td>
+                        <td><%= todo.desc %></td>
+                        <td><%= todo.due ? todo.due : "" %></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Toggle done">
+                                <%= link_to '<i class="fa fa-edit"></i>'.html_safe, todo.url,
+                                    class: "btn btn-warning" %>
+                                <%= link_to '<i class="fa fa-check"></i>'.html_safe, trello_done_path(id: todo.id), class: "btn btn-success" %>
+                                <%= link_to '<i class="fa fa-trash"></i>'.html_safe, trello_delete_path(id: todo.id),
+                                    data: { confirm: 'Are you sure?' },
+                                    class: "btn btn-danger"%>
+                        </div>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"><%= link_to 'Create New Task', new_todo_path, class: "btn btn-success mb-3" %></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
     <div class="col-md-6">
-        <h1 class="text-uppercase">GitHub</h1>
+        <h1 class="text-uppercase"><i class="fa fa-github"></i> GitHub</h1>
+        <hr />
         <div class="row">
             <h2>Issues</h2>
-            <table class="table table-condensed">
+            <table class="table table-condensed table-responsive">
                 <% @issues.each do |issue|  %>
                     <% if issue.updated_at>1.week.ago %>
                         <tr>
@@ -59,64 +88,66 @@
             </table>
 
             <h2>Timeline</h2>
-            <table class="table table-hover">
+            <table class="table table-hover table-responsive">
                 <tbody>
                     <% @events.each do |event|  %>
-                        <tr>
-                            <td class="text-center p-0 pr-1 border-0" nowrap><b><%= l event.created_at, format: :datetime_concise %></b></td>
-                            <td class="text-right p-0 border-0">
-                                <a class="text-white" href="<%= event.actor.rels[:self].get.data.rels[:html].href %>">
-                                    <%= event.actor.login %>
-                                </a>
-                            </td>
-                            <td class="text-center p-0 border-0">
-                                <% case event.type %>   
-                                <% when "ForkEvent" %>
-                                    <i class="fa fa-code-fork"></i>
-                                <% when "CreateEvent" %>
-                                    <i class="fa fa-pencil-square-o"></i>
-                                <% when "WatchEvent" %>
-                                    <i class="fa fa-star"></i>
-                                <% when "MemberEvent" %>
-                                    <i class="fa fa-user"></i>
-                                <% when "IssuesEvent" %>
-                                    <% if event.payload.action=="closed" %>
-                                        <i class="fa fa-times-circle"></i>
-                                    <% else %>
-                                        <i class="fa fa-exclamation-circle"></i>
-                                    <% end %>
-                                <% when "PushEvent" %>
-                                    <i class="fa fa-cloud-upload"></i>
-                                <% else %>
-                                    <%= event %>
-                                <% end %>
-                            </td>
-                            <td class="text-left p-0 border-0">
-                                <a class="text-white" href="<%= event.repo.rels[:self].get.data.rels[:html].href %>">
-                                    <%= event.repo.name %>
-                                </a>
-                                <% case event.type %>
-                                <% when "MemberEvent" %>
-                                    <br />
-                                    <small>
-                                        <a class="text-white" href="<%= event.payload.member.rels[:self].get.data.rels[:html].href %>">
-                                            <%= event.payload.member.login %>
-                                        </a>
-                                    </small>
-                                <% when "IssuesEvent" %>
-                                    <br />
-                                    <small class="text-white"><%= event.payload.issue.title %></small>
-                                <% when "PushEvent" %>
-                                    <ul class="pl-0">
-                                        <% event.payload.commits.each do |commit| %>
-                                            <li>
-                                                <small><%= commit.message %></small>
-                                            </li>
+                        <% if event.created_at>1.week.ago %>
+                            <tr>
+                                <td class="text-center p-0 pr-1 border-0" nowrap><b><%= l event.created_at, format: :datetime_concise %></b></td>
+                                <td class="text-right p-0 border-0">
+                                    <a class="text-white" href="<%= event.actor.rels[:self].get.data.rels[:html].href %>">
+                                        <%= event.actor.login %>
+                                    </a>
+                                </td>
+                                <td class="text-center p-0 border-0">
+                                    <% case event.type %>   
+                                    <% when "ForkEvent" %>
+                                        <i class="fa fa-code-fork"></i>
+                                    <% when "CreateEvent" %>
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    <% when "WatchEvent" %>
+                                        <i class="fa fa-star"></i>
+                                    <% when "MemberEvent" %>
+                                        <i class="fa fa-user"></i>
+                                    <% when "IssuesEvent" %>
+                                        <% if event.payload.action=="closed" %>
+                                            <i class="fa fa-times-circle"></i>
+                                        <% else %>
+                                            <i class="fa fa-exclamation-circle"></i>
                                         <% end %>
-                                    </ul>
-                                <% end %>
-                            </td>
-                        </tr>
+                                    <% when "PushEvent" %>
+                                        <i class="fa fa-cloud-upload"></i>
+                                    <% else %>
+                                        <%= event %>
+                                    <% end %>
+                                </td>
+                                <td class="text-left p-0 border-0">
+                                    <a class="text-white" href="<%= event.repo.rels[:self].get.data.rels[:html].href %>">
+                                        <%= event.repo.name %>
+                                    </a>
+                                    <% case event.type %>
+                                    <% when "MemberEvent" %>
+                                        <br />
+                                        <small>
+                                            <a class="text-white" href="<%= event.payload.member.rels[:self].get.data.rels[:html].href %>">
+                                                <%= event.payload.member.login %>
+                                            </a>
+                                        </small>
+                                    <% when "IssuesEvent" %>
+                                        <br />
+                                        <small class="text-white"><%= event.payload.issue.title %></small>
+                                    <% when "PushEvent" %>
+                                        <ul class="pl-0">
+                                            <% event.payload.commits.each do |commit| %>
+                                                <li>
+                                                    <small><%= commit.message %></small>
+                                                </li>
+                                            <% end %>
+                                        </ul>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        <% end %>
                     <% end %>
                 </tbody>
             </table>
