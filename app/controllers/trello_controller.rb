@@ -1,4 +1,5 @@
 require 'trello'
+require_relative 'api_configs.rb'
 
 Trello.configure do |config|
   config.developer_public_key = Config::TRELLO[:developer_public_key]
@@ -25,3 +26,4 @@ def mark_done(id)
   @todo.move_to_list(Trello::List.find(Config::TRELLO[:done_list]))
 end
 
+print todo_list

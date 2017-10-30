@@ -33,6 +33,7 @@ gem 'bootstrap', '~> 4.0.0.beta'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'octokit'
+gem 'graphql-client'
 gem 'ruby-trello'
 
 # Use Capistrano for deployment
