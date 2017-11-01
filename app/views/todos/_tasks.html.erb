@@ -1,25 +1,16 @@
         <h1 class="text-uppercase"><i class="fa fa-check-circle-o"></i> Tasks</h1>
         <hr />
-        <table class="table table-responsive table-condensed table-striped text-center">
-            <thead>
-                <tr>
-                    <th class="text-center">Title</th>
-                    <th class="text-center">Description</th>
-                    <th class="text-center">Due</th>
-                </tr>
-            </thead>
+        <table class="table table-striped text-center" style="width:100%">
             <tbody>
                 <% @todos.each do |todo| %>
                     <tr>
-                        <td><%= todo.name %></td>
-                        <td><%= todo.desc %></td>
-                        <td><%= todo.due ? todo.due : "" %></td>
+                        <td><%= todo.node.note %></td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Toggle done">
-                                <%= link_to '<i class="fa fa-edit"></i>'.html_safe, todo.url,
+                                <%= link_to '<i class="fa fa-edit"></i>'.html_safe, "todo.node.url", #TODO: Fix
                                     class: "btn btn-warning" %>
-                                <%= link_to '<i class="fa fa-check"></i>'.html_safe, trello_done_path(id: todo.id), class: "btn btn-success" %>
-                                <%= link_to '<i class="fa fa-trash"></i>'.html_safe, trello_delete_path(id: todo.id),
+                                <%= link_to '<i class="fa fa-check"></i>'.html_safe, trello_done_path(id: 0), class: "btn btn-success" %>
+                                <%= link_to '<i class="fa fa-trash"></i>'.html_safe, trello_delete_path(id: 0),
                                     data: { confirm: 'Are you sure?' },
                                     class: "btn btn-danger"%>
                         </div>

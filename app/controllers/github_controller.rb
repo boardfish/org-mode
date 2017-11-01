@@ -27,7 +27,7 @@ LoginQuery = Client.parse <<-'GRAPHQL'
       avatarUrl
       name
       login
-      repository(name: ".files") {
+      config: repository(name: ".files") {
         name
         object(expression: "master:shellscripts/theme") {
           ... on Blob {
@@ -50,6 +50,9 @@ LoginQuery = Client.parse <<-'GRAPHQL'
         edges {
           node {
             title
+            state
+            updatedAt
+            url
             repository {
               nameWithOwner
             }
@@ -57,10 +60,29 @@ LoginQuery = Client.parse <<-'GRAPHQL'
           }
         }
       }
+      data: repository(name: "org-mode-data") {
+        project(number: 1) {
+          columns(first: 4) {
+            edges {
+              node {
+                id
+                name
+                cards(first: 100) {
+                  edges {
+                    node {
+                      note
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 GRAPHQL
-result = Client.query(LoginQuery)
+$result = Client.query(LoginQuery)
 
 Octokit.configure do |c|
   c.access_token = Config::GITHUB[:access_token]
@@ -75,10 +97,19 @@ def events
 end
 
 def issues
-  result.data.viewer.issues.edges
+  $result.data.viewer.issues.edges
 end
 
 def repos
-  result.data.viewer.repositories.edges
+  $result.data.viewer.repositories.edges
+end
+
+def todo_list
+  $result.data.viewer.data.project.columns.edges[1]
+end
+
+def repos
+  p "result = #{@result}"
+  $result.data.viewer.repositories.edges
 end
 

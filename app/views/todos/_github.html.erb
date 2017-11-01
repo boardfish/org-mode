@@ -4,26 +4,24 @@
     <h2>Issues</h2>
     <table class="table table-condensed table-responsive">
         <% @issues.each do |issue|  %>
-            <% if issue.updated_at>1.week.ago %>
-                <tr>
-                    <td>
-                        <% case issue.state%>
-                        <% when "open" %>
-                            <i class="fa fa-exclamation-circle"></i>
-                        <% when "closed" %>
-                            <i class="fa fa-times-circle"></i>
-                        <% else %>
-                            <%= issue.state %>
-                        <% end %>
-                    </td>
-                    <td>
-                        <a href="<%= issue.rels[:self].get.data.rels[:html].href %>">
-                            <%= issue.title %>
-                        </a>
-                    </td>
-                    <td><%= l issue.updated_at, format: :datetime_concise %></td>
-                </tr>      
-            <% end %>
+            <tr>
+                <td>
+                    <% case issue.node.state
+                       when "open" %>
+                        <i class="fa fa-exclamation-circle"></i>
+                    <% when "closed" %>
+                        <i class="fa fa-times-circle"></i>
+                    <% else %>
+                        <%= issue.node.state %>
+                    <% end %>
+                </td>
+                <td>
+                    <a href=<% issue.node.url %>>
+                        <%= issue.node.title %>
+                    </a>
+                </td>
+                <td><%= l DateTime.parse(issue.node.updated_at), format: :datetime_concise %></td>
+            </tr>      
         <% end %>
     </table>
 
@@ -95,8 +93,8 @@
     <table class="table table-hover table-responsive">
         <% @repos.each do |repo| %>
             <tr>
-                <td class="border-0 p-0 pr-1"><b><%= l repo.updated_at, format: :datetime_concise %></b></td>
-                <td class="border-0 p-0"><a href="<%= repo.rels[:html].href %>"><%= repo.name %></a></td>
+                <%# <td class="border-0 p-0 pr-1"><b><%= l repo.node.updated_at, format: :datetime_concise %1></b></td> %>
+                <td class="border-0 p-0"><a href="<%= repo.node.name %>"><%= repo.node.name %></a></td>
             </tr>
         <% end %>
     </table>

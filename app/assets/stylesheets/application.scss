@@ -21,7 +21,8 @@ $navbar-dark-disabled-color: $color9;
 //   @extend .has-danger;
 // }
 body {
-  background-image: url($wallpaper);
+  // background-image: url($wallpaper);
+  background-color: $background;
 }
 a {
   color: $foreground;
